@@ -10,4 +10,5 @@ export type Note = {
    title: string;
    content: string;
    label: Label;
+   isFavorite: boolean;
 };
