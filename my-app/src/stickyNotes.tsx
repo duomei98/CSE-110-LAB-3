@@ -127,10 +127,10 @@ export const StickyNotes = () => {
                 className="mode" 
                 onClick={toggleTheme} // Use toggleTheme from the custom hook
                 style={{ 
-                backgroundColor: currentTheme.card,
-                color: currentTheme.text,
-                border: `2px solid ${currentTheme.border}`,
-            }}
+                    backgroundColor: currentTheme.card,
+                    color: currentTheme.text,
+                    border: `2px solid ${currentTheme.border}`,
+                }}
             >
                 {currentTheme === themes.dark ? 'Light' : 'Dark'} 
             </button>
