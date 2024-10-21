@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler } from "react";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GroceryItem } from "./types";
 import { dummyGroceryList } from "./constants";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,11 @@ export function ToDoList() {
     const [numRemainingItems, setNumRemainingItems] = useState(0);
 
     let [items, setItems] = useState(dummyGroceryList);
+
+    // add hook to log items for debugging ease
+    useEffect(() => {
+        console.log("Purchased items:", items.filter(item => item.isPurchased));
+      }, [items]);
 
     function handleCheckboxClick(e: React.ChangeEvent<HTMLInputElement>) {
         const checkbox: HTMLInputElement = e.target as HTMLInputElement;
@@ -46,14 +51,16 @@ export function ToDoList() {
 
 function ListItem(item: GroceryItem, changeHandler: ChangeEventHandler) {
  return (
-   <div>
-     <input
-       type="checkbox"
-       onChange={changeHandler}
-       checked={item.isPurchased}
-       name={item.name}
-     />
-     {item.name}
+   <div role = "listitem">
+     <label>
+        <input
+            type="checkbox"
+            onChange={changeHandler}
+            checked={item.isPurchased}
+            name={item.name}
+        />
+        {item.name}
+     </label>
    </div>
  );
 }

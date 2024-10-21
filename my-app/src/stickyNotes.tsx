@@ -14,7 +14,8 @@ export const StickyNotes = () => {
         id: -1,
         title: "",
         content: "",
-        label: Label.other,
+        // we want the dropdown to default to Select a label after form submission
+        label: "Select a label",
         isFavorite: false,
     };
 
@@ -22,8 +23,11 @@ export const StickyNotes = () => {
 
     const createNoteHandler = (event: React.FormEvent) => {
         event.preventDefault();
+        // add code that checks if fields are empty
+        if (!createNoteState.title || !createNoteState.content ||
+            createNoteState.label === "Select a label") { return; }
         createNote({ ...createNoteState, id: notes.length + 1 });
-        setCreateNoteState(initialNote); // Reset form state after submission
+        setCreateNoteState(initialNote);
     };
 
     return (
@@ -57,12 +61,17 @@ export const StickyNotes = () => {
             />
         </div>
         <select 
+            // allows me to test this form specifically
+            data-testid="label-select"
             onChange={(event) => 
                 setCreateNoteState({ ...createNoteState, label: event.target.value as Label })
             }
             id="labels" 
+            // controlled component, dropdown should always reflect the value stored here
+            value={createNoteState.label}
             required
         >
+            <option value="Select a label" disabled>Select a label</option>
             <option value={Label.personal}>Personal</option>
             <option value={Label.work}>Work</option>
             <option value={Label.study}>Study</option>
@@ -78,6 +87,9 @@ export const StickyNotes = () => {
                 <div
                     key={note.id}
                     className="note-item" 
+                    // create note role so we can query by role in tests
+                    role="note"
+
                     style={{
                         backgroundColor: currentTheme.card,
                         color: currentTheme.text,
@@ -95,6 +107,8 @@ export const StickyNotes = () => {
                     contentEditable
                     suppressContentEditableWarning={true}
                     onBlur={(e) => updateNote({ ...note, title: e.currentTarget.textContent || '' })}
+                    // Assign testid to each edit title portion
+                    data-testid={`note-title-${note.id}`}
                     style={{ cursor: 'text' }}
                 >
                     <h2>{note.title}</h2>
@@ -104,11 +118,16 @@ export const StickyNotes = () => {
                     contentEditable
                     suppressContentEditableWarning={true}
                     onBlur={(e) => updateNote({ ...note, content: e.currentTarget.textContent || '' })}
+                    // Assign testid to each edit content portion
+                    data-testid={`note-content-${note.id}`}
                     style={{ cursor: 'text' }}
                 >
                     <p>{note.content}</p>
                 </div>
                 <select 
+                    // let specific note have id sticky-note-# 
+                    data-testid={`note-label-${note.id}`}
+
                     className="edit-text"
                     onChange={(event) => updateNote({ ...note, label: event.target.value as Label })}
                     value={note.label} // Use controlled select

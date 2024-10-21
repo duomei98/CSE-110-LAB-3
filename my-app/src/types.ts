@@ -9,7 +9,7 @@ export type Note = {
    id: number;
    title: string;
    content: string;
-   label: Label;
+   label: string;
    isFavorite: boolean;
 };
 export type GroceryItem = { name: string; isPurchased: boolean };

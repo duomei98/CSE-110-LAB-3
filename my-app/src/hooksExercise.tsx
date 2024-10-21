@@ -43,7 +43,9 @@ export const useTheme = () => {
 };
 
 export const useNotes = () => {
-  const [notes, setNotes] = useState<Note[]>(dummyNotesList);
+  // const [notes, setNotes] = useState<Note[]>(dummyNotesList);
+  const [notes, setNotes] = useState<Note[]>([]);
+
 
   const handleToggleFavorite = (noteId: number) => {
     // creates new list of notes with the note with id matching argument switching 
@@ -53,6 +55,9 @@ export const useNotes = () => {
     );
     setNotes(updatedNotes);
   };
+
+  
+  const [selectedLabel, setSelectedLabel] = useState("Select a label");
 
   const createNote = (newNote: Note) => {
     // adds newNote into the list of notes with setter function setNotes
