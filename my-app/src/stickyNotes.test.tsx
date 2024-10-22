@@ -276,6 +276,9 @@ describe("Create StickyNote", () => {
 
         const deletedNoteTitle = screen.queryByText("Note 1");
         expect(deletedNoteTitle).not.toBeInTheDocument();
+
+        const noteItems = screen.queryAllByRole('note');
+        expect(noteItems.length).toBe(0);
     });
 });
 
